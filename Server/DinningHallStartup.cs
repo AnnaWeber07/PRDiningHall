@@ -20,7 +20,6 @@ namespace AnnaWebDiningFin.Server
 
         private Dinning dining;
 
-
         public async Task HandleIncomingConnections()
         {
             bool isRunning = true;
