@@ -14,7 +14,8 @@ namespace AnnaWebDiningFin
 
         // private readonly Menu _menu = new();
 
-        public Menu menu = new();
+        public Menu restaurantMenu = new();
+        public RegisterMenu registerMenu = new RegisterMenu();
 
         private readonly List<Table> _tables = new();
         private readonly List<Waiter> _waiters = new();
@@ -73,7 +74,10 @@ namespace AnnaWebDiningFin
         {
             GenerateTables(5);
             GenerateWaiters(4);
-            menu.PrepareMenu();
+            restaurantMenu.PrepareMenu();
+            registerMenu = ComposeRegisterData();
+            server.SendMenu(registerMenu);
+
             return Task.CompletedTask;
         }
 
@@ -81,7 +85,7 @@ namespace AnnaWebDiningFin
         {
             this.server = server;
             this.server.Start(this);
-            menu.PrepareMenu();
+            restaurantMenu.PrepareMenu();
         }
 
         public Table GetFirstWaitingTable()
@@ -99,6 +103,22 @@ namespace AnnaWebDiningFin
             }
 
             return firstWT;
+        }
+
+        public RegisterMenu ComposeRegisterData()
+        {
+            RegisterMenu registerMenu = new RegisterMenu();
+            registerMenu.MenuList = new();
+
+            foreach (Food f in restaurantMenu.Values)
+            {
+                registerMenu.MenuList.Add(f);
+            }
+
+            registerMenu.MenuItems = registerMenu.MenuList.Count;
+
+
+            return registerMenu;
         }
 
         public void GenerateTables(int quantity)

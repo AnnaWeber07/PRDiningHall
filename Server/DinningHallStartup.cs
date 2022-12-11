@@ -9,14 +9,18 @@ using AnnaWebDiningFin.Data.Enums;
 using AnnaWebDiningFin;
 using AnnaWebDiningFin.Infrastructure.Calculations;
 using AnnaWebDiningFin.Domain;
+using System.Runtime.InteropServices;
+using AnnaWebDiningFin.Data.MenuData;
 
 namespace AnnaWebDiningFin.Server
 {
     public class DinningHallStartup
     {
         private static HttpListener listener;
-        private static string receiveUrl = "http://localhost:8082/";
         private static string sendUrl = "http://localhost:8081/";
+        private static string receiveUrl = "http://localhost:8082/";
+        private static string clientServiceUrl = "http://localhost:8084/";
+        private static string foodOrderingUrl = "http://localhost:8085/";
 
         private Dinning dining;
 
@@ -66,7 +70,28 @@ namespace AnnaWebDiningFin.Server
             }
         }
 
-        
+
+        public void SendMenu(RegisterMenu registerMenu)
+        {
+            using var client = new HttpClient();
+            var sendMenu = JsonSerializer.Serialize(registerMenu);
+
+            string mediaType = "application/json";
+            var postResponse = client.PostAsync(foodOrderingUrl + "register",
+                new StringContent(sendMenu, Encoding.UTF8, mediaType))
+                .GetAwaiter()
+                .GetResult();
+
+            if (postResponse.StatusCode == HttpStatusCode.OK)
+            {
+                LogWriter.Log($"The restaurant's restaurantMenu had been sent");
+            }
+            else
+            {
+                LogWriter.Log($"The restaurant's restaurantMenu hadn't been sent");
+            }
+        }
+
 
         public async void Start(Dinning dining)
         {
@@ -75,7 +100,7 @@ namespace AnnaWebDiningFin.Server
             listener = new HttpListener();
             listener.Prefixes.Add(receiveUrl);
             listener.Start();
-            
+
             await HandleIncomingConnections();
 
             listener.Close();
