@@ -5,7 +5,7 @@ namespace AnnaWebDiningFin.Data.MenuData
 {
     public class Menu
     {
-        public List<Food>? Values { get; private set; }
+        public List<Food> Values { get; set; }
 
         public Menu()
         {

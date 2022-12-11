@@ -65,7 +65,7 @@ namespace AnnaWebDiningFin.Domain
                         table.State = TableState.Ordering;
                         LogWriter.Log($"Waiter number {Id} reached the Table {table.Id}");
 
-                        Order order = table.GetOrder(this, Dinning.menu.Values);
+                        Order order = table.GetOrder(this, Dinning.restaurantMenu.Values);
                         table.timeOfOrder = DateTime.Now;
                         Dinning.Orders.Add(order);
 
