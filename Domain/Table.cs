@@ -59,7 +59,7 @@ namespace AnnaWebDiningFin.Domain
         {
             var result = new Order();
 
-            int quantity = GenerateNumber(4);
+            int quantity = GenerateNumber(5);
 
             for (int i = 0; i < quantity; i++)
             {
@@ -79,7 +79,7 @@ namespace AnnaWebDiningFin.Domain
 
         public Order SortByPrepTime(List<Food> menu, Order o)
         {
-            o.MaxWaitingTime = o.Items
+            o.MaxWait = o.Items
                    .Select(x => menu
                .First(i => i.Id == x).PreparationTime)
                .OrderByDescending(t => t).First();
@@ -95,7 +95,7 @@ namespace AnnaWebDiningFin.Domain
                 priority += 2;
             }
 
-            if (order.MaxWaitingTime <= 30)
+            if (order.MaxWait <= 30)
             {
                 priority += 1;
             }
