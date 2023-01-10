@@ -48,17 +48,6 @@ namespace AnnaWebDiningFin
             }
         }
 
-        //public List<Food> Menu
-        //{
-        //    get
-        //    {
-        //        lock (_menuLocker)
-        //        {
-        //            return _menu.Values;
-        //        }
-        //    }
-        //}
-
         public List<Order> Orders
         {
             get
@@ -85,7 +74,7 @@ namespace AnnaWebDiningFin
         {
             this.server = server;
             this.server.Start(this);
-            restaurantMenu.PrepareMenu();
+            //restaurantMenu.PrepareMenu();
         }
 
         public Table GetFirstWaitingTable()
